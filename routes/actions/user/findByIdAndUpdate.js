@@ -6,8 +6,8 @@ const { User, validateUser } = require('../../../model/User');
 const _ = require('lodash');
 
 module.exports = async (req, res) => {
-	// 将密码、邮箱字段抛除
-	req.fields = _.pick(req.fields, ['nickName', 'role', 'avatar', 'status']);
+	// 将密码字段抛除
+	req.fields = _.pick(req.fields, ['nickName', 'role', 'avatar', 'status','email']);
 	req.fields._id = req.params['id'];
 	// 定义对象验证规则
 	const schema = {
