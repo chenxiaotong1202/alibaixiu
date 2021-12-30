@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script src="../assets/vendors/nprogress/nprogress.js"></script>
 </head>
+<style>
+  .selectUser:hover,#selectAll:hover{
+    cursor: pointer;
+  }
+</style>
 <body>
   <script>NProgress.start()</script>
 
@@ -25,9 +30,8 @@
         <h1>用户</h1>
       </div>
       <!-- 有错误信息时展示 -->
-      <!-- <div class="alert alert-danger">
-        <strong>错误！</strong>发生XXX错误
-      </div> -->
+      <div class="alert alert-danger" id="errorText" style="display: none;">
+      </div>
       <div class="row">
         <div class="col-md-4" id="modifyBox">
           <form id="userForm">
@@ -39,7 +43,7 @@
                   <input id="avatar" type="file">
                   <img src="../assets/img/default.png" id="preview">
                   <i class="mask fa fa-upload"></i>
-                  <input type="hidden" name="avatar" id="hiddenAvatar">
+                  <input type="hidden"  id="hiddenAvatar"  name="avatar" value="../assets/img/default.png">
                 </label>
               </div>
             </div>
@@ -79,12 +83,14 @@
         <div class="col-md-8">
           <div class="page-action">
             <!-- show when multiple checked -->
-            <a class="btn btn-danger btn-sm" href="javascript:;" style="display: none">批量删除</a>
+            <a id="delMany" class="btn btn-danger btn-sm" href="javascript:;" style="display: none;">批量删除</a>
           </div>
           <table class="table table-striped table-bordered table-hover">
             <thead>
                <tr>
-                <th class="text-center" width="40"><input type="checkbox"></th>
+                <th class="text-center" width="40">
+                  <input type="checkbox" id="selectAll">
+                </th>
                 <th class="text-center" width="80">头像</th>
                 <th>邮箱</th>
                 <th>昵称</th>
@@ -148,7 +154,9 @@
   <script type="text/html" id="userTpl">
     {{each data}}
     <tr>
-      <td class="text-center"><input type="checkbox"></td>
+      <td class="text-center">
+        <input type="checkbox" class="selectUser" data-id={{$value._id}}>
+      </td>
       {{if $value.avatar == null}}
       <td class="text-center"><img class="avatar" src="../assets/img/default.png"></td>
       {{else}}
@@ -160,7 +168,7 @@
       <td>{{$value.role == 'admin' ? '超级管理员' : '普通用户'}}</td>
       <td class="text-center">
         <a href="javascript:;" class="btn btn-default btn-xs edit" data-id="{{$value._id}}">编辑</a>
-        <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+        <a href="javascript:;" class="btn btn-danger btn-xs del">删除</a>
       </td>
     </tr>
     {{/each}}

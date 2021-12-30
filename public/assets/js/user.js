@@ -2,18 +2,23 @@
 $('#userForm').on('submit',function(){
     //获取用户输入的值
     var formData = $(this).serialize()
-    //发请求
+    // 发请求
     $.ajax({
         type: 'post',
         url: '/users',
         data: formData,
         success: function(data){
-            console.log(data);
+            // console.log(data);
             location.href = 'users.html'
         },
         error: function(err){
-            alert('添加失败')
-            console.log(err);
+            var obj = err.responseText
+            //拿到返回值的后面部分 obj.split(':')[1]  服务器返回: "用户名不符合验证规则"}
+            var obj1 = obj.split(':')[1]
+            //截取字符串  .substr(start,length)
+            var obj2 = obj1.substr(1,obj1.length - 3)
+            $('#errorText').show()
+            $('#errorText').html(obj2)
         }
     })
     //阻止表单默认行为
@@ -95,7 +100,67 @@ $('#modifyBox').on('submit', '#modifyForm' ,function(){
             alert('修改失败')
         }
     })
-
     //阻止表单默认提交行为
     return false;
 })
+
+//删除用户信息
+$('#userBox').on('click','.del',function(){
+    var id = $(this).siblings().attr('data-id')
+    var isDel = confirm('您确定要删除吗?')
+    if(isDel){
+        $.ajax({
+            type: 'delete',
+            url: '/users/' + id,
+            success: function(){
+                location.reload()
+            },
+            error: function(err){
+                alert('删除失败!')
+            }
+        })
+    }
+})
+
+//全选与全不选按钮
+$('#selectAll').on('change',function(){
+    //全选按钮的状态
+    var allStatus = $(this).prop('checked')
+    //全选按钮 决定 子按钮的状态
+    $('#userBox').find('input').prop('checked',allStatus)
+    //全选按钮决定 批量按钮显示/隐藏
+    if(allStatus){
+        $('#delMany').show()
+    }else{
+        $('#delMany').hide()
+    }
+})
+
+//子按钮决定全选按钮的状态 -- 思路: 将所有按钮的数量 与 选中按钮的数量 进行比较
+$('#userBox').on('change','.selectUser',function(){
+    if($('#userBox').find('input').length == $('#userBox').find('input').filter(':checked').length){
+        //子选项全部选中了
+        $('#selectAll').prop('checked',true)
+    }else{
+        //子选项有的没选中
+        $('#selectAll').prop('checked',false)
+    }
+    //子选项按钮决定 批量按钮显示/隐藏
+    if($('#userBox').find('input').filter(':checked').length > 0){
+        $('#delMany').show()
+    }else{
+        $('#delMany').hide()
+    }
+})
+
+//批量删除
+$('#delMany').on('click',function(){
+    var ids = []
+    $('#userBox').find('input').filter(':checked').each(function(i,ele){
+        //把当前的遍历项转为jq对象 $(ele)
+        ids.push($(ele).attr('data-id'))
+    })
+    console.log(ids);
+})
+
+
