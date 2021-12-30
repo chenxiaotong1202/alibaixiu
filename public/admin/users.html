@@ -22,7 +22,7 @@
       <button class="btn btn-default navbar-btn fa fa-bars"></button>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="password-reset.html"><i class="fa fa-user"></i>修改密码</a></li>
-        <li><a href="login.html"><i class="fa fa-sign-out"></i>退出</a></li>
+        <li><a href="javascript:;" id="logout"><i class="fa fa-sign-out"></i>退出</a></li>
       </ul>
     </nav>
     <div class="container-fluid">
@@ -43,7 +43,7 @@
                   <input id="avatar" type="file">
                   <img src="../assets/img/default.png" id="preview">
                   <i class="mask fa fa-upload"></i>
-                  <input type="hidden"  id="hiddenAvatar"  name="avatar" value="../assets/img/default.png">
+                  <input type="hidden"  id="hiddenAvatar"  name="avatar">
                 </label>
               </div>
             </div>
@@ -224,5 +224,6 @@
 
 
   <script src="../assets/js/user.js"></script>
+  <script src="../assets/js/common.js"></script>
 </body>
 </html>

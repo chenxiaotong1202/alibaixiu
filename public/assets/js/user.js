@@ -160,7 +160,19 @@ $('#delMany').on('click',function(){
         //把当前的遍历项转为jq对象 $(ele)
         ids.push($(ele).attr('data-id'))
     })
-    console.log(ids);
+    //发请求
+    if(confirm("您确定要删除选中的这些用户信息吗？")){
+        $.ajax({
+            type: 'delete',
+            url: '/users/' + ids.join('-'),
+            success: function(){
+                location.reload()
+            },
+            error:function(){
+                alert('批量删除失败！')
+            }
+        })
+    }
 })
 
 
