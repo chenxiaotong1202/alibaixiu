@@ -63,12 +63,12 @@ $.ajax({
             data: data
         })
         // 渲染页面
-        $('#userBox').html(html)
+        $('#selectBox').html(html)
     }
 })
 
 //渲染被点击的修改用户数据
-$('#userBox').on('click','.edit',function(){
+$('#selectBox').on('click','.edit',function(){
     //获取用户点击了编辑的那个的id
     var id = $(this).attr('data-id')
     $.ajax({
@@ -105,7 +105,7 @@ $('#modifyBox').on('submit', '#modifyForm' ,function(){
 })
 
 //删除用户信息
-$('#userBox').on('click','.del',function(){
+$('#selectBox').on('click','.del',function(){
     var id = $(this).siblings().attr('data-id')
     var isDel = confirm('您确定要删除吗?')
     if(isDel){
@@ -122,41 +122,41 @@ $('#userBox').on('click','.del',function(){
     }
 })
 
-//全选与全不选按钮
-$('#selectAll').on('change',function(){
-    //全选按钮的状态
-    var allStatus = $(this).prop('checked')
-    //全选按钮 决定 子按钮的状态
-    $('#userBox').find('input').prop('checked',allStatus)
-    //全选按钮决定 批量按钮显示/隐藏
-    if(allStatus){
-        $('#delMany').show()
-    }else{
-        $('#delMany').hide()
-    }
-})
-
-//子按钮决定全选按钮的状态 -- 思路: 将所有按钮的数量 与 选中按钮的数量 进行比较
-$('#userBox').on('change','.selectUser',function(){
-    if($('#userBox').find('input').length == $('#userBox').find('input').filter(':checked').length){
-        //子选项全部选中了
-        $('#selectAll').prop('checked',true)
-    }else{
-        //子选项有的没选中
-        $('#selectAll').prop('checked',false)
-    }
-    //子选项按钮决定 批量按钮显示/隐藏
-    if($('#userBox').find('input').filter(':checked').length > 0){
-        $('#delMany').show()
-    }else{
-        $('#delMany').hide()
-    }
-})
+// ------以下这部分代码已经挪到commongo.js中复用了------
+// //全选与全不选按钮
+// $('#selectAll').on('change',function(){
+//     //全选按钮的状态
+//     var allStatus = $(this).prop('checked')
+//     //全选按钮 决定 子按钮的状态
+//     $('#selectBox').find('input').prop('checked',allStatus)
+//     //全选按钮决定 批量按钮显示/隐藏
+//     if(allStatus){
+//         $('#delMany').show()
+//     }else{
+//         $('#delMany').hide()
+//     }
+// })
+// //子按钮决定全选按钮的状态 -- 思路: 将所有按钮的数量 与 选中按钮的数量 进行比较
+// $('#selectBox').on('change','.selectUser',function(){
+//     if($('#selectBox').find('input').length == $('#selectBox').find('input').filter(':checked').length){
+//         //子选项全部选中了
+//         $('#selectAll').prop('checked',true)
+//     }else{
+//         //子选项有的没选中
+//         $('#selectAll').prop('checked',false)
+//     }
+//     //子选项按钮决定 批量按钮显示/隐藏
+//     if($('#selectBox').find('input').filter(':checked').length > 0){
+//         $('#delMany').show()
+//     }else{
+//         $('#delMany').hide()
+//     }
+// })
 
 //批量删除
 $('#delMany').on('click',function(){
     var ids = []
-    $('#userBox').find('input').filter(':checked').each(function(i,ele){
+    $('#selectBox').find('input').filter(':checked').each(function(i,ele){
         //把当前的遍历项转为jq对象 $(ele)
         ids.push($(ele).attr('data-id'))
     })
