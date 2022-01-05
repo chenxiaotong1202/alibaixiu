@@ -20,7 +20,7 @@
         <li><a href="login.html"><i class="fa fa-sign-out"></i>退出</a></li>
       </ul>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid" id="modifyArticleBox">
       <div class="page-title">
         <h1>写文章</h1>
       </div>
@@ -45,6 +45,8 @@
             <!-- show when image chose -->
             <img class="help-block thumbnail" style="display: none">
             <input name="thumbnail" id="feature" class="form-control" type="file">
+            <!-- 隐藏域 -->
+            <input type="hidden" name="thumbnail" id="hiddenPic">
           </div>
           <div class="form-group">
             <label for="category">所属分类</label>
@@ -69,6 +71,7 @@
           </div>
         </div>
       </form>
+
     </div>
   </div>
 
@@ -120,6 +123,62 @@
     {{/each}}
   </script>
 
-  <script src="../assets/js/article.js"></script>
+  <!-- 渲染编辑文章数据 -->
+  <script type="text/html" id="modifyArticleTpl">
+        <div class="container-fluid" id="addArticleBox">
+      <div class="page-title">
+        <h1>写文章</h1>
+      </div>
+      <!-- 有错误信息时展示 -->
+      <!-- <div class="alert alert-danger">
+        <strong>错误！</strong>发生XXX错误
+      </div> -->
+      <form class="row" id="addArticle">
+        <div class="col-md-9">
+          <div class="form-group">
+            <label for="title">标题</label>
+            <input name="title" id="title" class="form-control input-lg" type="text" placeholder="文章标题" >
+          </div>
+          <div class="form-group">
+            <label for="content">内容</label>
+            <textarea name="content" id="content" class="form-control input-lg" cols="30" rows="10" placeholder="内容"></textarea>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group" id="thumbnail">
+            <label for="feature">文章封面</label>
+            <!-- show when image chose -->
+            <img class="help-block thumbnail" style="display: none">
+            <input name="thumbnail" id="feature" class="form-control" type="file">
+            <!-- 隐藏域 -->
+            <input type="hidden" name="thumbnail" id="hiddenPic">
+          </div>
+          <div class="form-group">
+            <label for="category">所属分类</label>
+            <!-- 使用模板引擎渲染所属分类 -->
+            <select name="category" id="category" class="form-control">
+              
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="created">发布时间</label>
+            <input name="createAt" id="created" class="form-control" type="datetime-local">
+          </div>
+          <div class="form-group">
+            <label for="status">状态</label>
+            <select name="state" id="status" class="form-control">
+              <option value="0">草稿</option>
+              <option value="1">已发布</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit">保存</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </script>
+  <script src="../assets/js/post-add.js"></script>
 </body>
 </html>

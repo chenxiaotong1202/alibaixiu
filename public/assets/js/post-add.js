@@ -28,17 +28,31 @@ $('#feature').on('change',function(){
         //告诉$.ajax 不要设置请求参数的类型
         contentType: false,
         success: function(data){
-            console.log(data);
+            var picPath = data[0].cover
+            $('#thumbnail img').attr('src' , picPath).show()
+            $('#hiddenPic').val(picPath)
         }
     })
-
-
 })
 
 
 //新增文章
 $('#addArticle').on('submit',function(){
-    console.log($(this).serialize());
-
+    var formData = $(this).serialize()
+    
+    $.ajax({
+        type: 'post',
+        url: '/posts',
+        data: formData,
+        success: function(data){
+            location.href = '/admin/posts.html'
+        },
+        error: function(err){
+            console.log(err);
+        }
+    })
     return false
 })
+
+
+//编辑文章

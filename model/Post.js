@@ -10,7 +10,7 @@ const PostSchema = new Schema({
 	// 标题
 	title: {
 		type: String,
-		minlength: 2,
+		minlength: 1,
 		maxlength: 100,
 		required: [true, '请输入文章标题']
 	},
