@@ -16,6 +16,10 @@
     margin-top: 7px;
     margin-right: 12px;
   }
+  .active{
+    background-color: #2f4050!important;
+    color: #fff!important;
+  }
 </style>
 <body>
   <script>NProgress.start()</script>
@@ -147,7 +151,7 @@
     <li><a href="javascript:;" onclick="changePage('{{page - 1}}')">上一页</a></li>
     {{/if}}
     {{each display}}
-    <li><a href="javascript:;" onclick="changePage('{{$value}}')">{{$value}}</a></li>
+    <li><a href="javascript:;" onclick="changePage('{{$value}}')" class="{{page == $value ? 'active' : ''}}">{{$value}}</a></li>
     {{/each}}
     {{if page < pages}}
     <li><a href="#" onclick="changePage('{{page - 0 + 1}}')">下一页</a></li>
@@ -155,5 +159,6 @@
   </script>
 
   <script src="../assets/js/posts.js"></script>
+  <script src="../assets/js/common.js"></script>
 </body>
 </html>
