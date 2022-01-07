@@ -16,6 +16,20 @@ $('#logout').on('click',function(){
     }
   })
 
+//设置登录用户的头像与昵称 (由于我们在index.html页面顶部使用script访问了标签,拿到了用户的登录状态与用户id,所以此处我们自己可以使用它) 
+console.log(userId);
+//根据id查询用户信息
+$.ajax({
+  type: 'get',
+  url: '/users/' + userId,
+  success: function(data){
+    $('.profile .avatar').attr('src',data.avatar)
+    $('.profile .name').html(data.nickName)
+  }
+})
+
+
+
 //左侧边栏 显示与隐藏
 var flag = true
 $('#listBtn').on('click',function(){   
