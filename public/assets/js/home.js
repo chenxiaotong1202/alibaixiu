@@ -6,7 +6,7 @@ $.ajax({
         var html = template('slideTpl',{
             data
         })
-        console.log(data);
+        // console.log(data);
         $('#slideBox').html(html)
 
         //控制轮播右下角的点
@@ -22,11 +22,9 @@ $.ajax({
             auto: 3000,
             transitionEnd: function (index) {
               // index++;
-              console.log(index);
               $('.cursor span').eq(index).addClass('active').siblings('.active').removeClass('active');
             }
           });
-      
           // 上/下一张
           $('.swipe .arrow').on('click', function () {
             var _this = $(this);
@@ -38,4 +36,31 @@ $.ajax({
             }
           })
     }
+})
+
+//请求最新发布数据
+$.ajax({
+  type: 'get',
+  url: '/posts/lasted',
+  success: function(data){
+    // console.log(data);
+    var html = template('lastedTpl',{
+      data: data
+    })
+    $('#lastedBox').html(html)
+  }
+})
+
+
+//点赞文章
+$('#lastedBox').on('click','.like',function(){
+    var id = $(this).attr('data-id')
+    $.ajax({
+      type: 'post',
+      url: '/posts/fabulous/' + id ,
+      success: function(data){
+        alert('点赞成功!')
+        location.reload()
+      }
+    })
 })
