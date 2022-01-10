@@ -1,3 +1,25 @@
+//处理时间的函数 
+function formateDate(date){
+  //将日期字符串 转为 日期对象
+  date = new Date(date)     // console.log(date);  Wed Jan 05 2022 10:31:00 GMT+0800 (中国标准时间)
+  var yyyy = date.getFullYear();//获取当前年份
+  var MM = date.getMonth() + 1;//因为getMonth()方法获取的是索引值，获取的月份为0-11，所以要＋1
+  var dd = date.getDate();//从 Date 对象返回一个月中的某一天 (1 ~ 31）
+  var hh = date.getHours();//返回 Date 对象的小时 (0 ~ 23)
+  var mm = date.getMinutes();//返回 Date 对象的分钟 (0 ~ 59)
+  MM = checkTime(MM);//调用下面的checkTime函数，设置小于10的时间数字格式，例如5秒显示成05秒
+  dd = checkTime(dd);
+  hh = checkTime(hh);
+  mm = checkTime(mm);
+  function checkTime(i) {
+      if (i < 10) {
+          i = "0" + i;//这里如果是一位数则在前面添加一位0
+      }
+      return i;
+   }
+  return yyyy + '-' + MM + '-' + dd
+};
+
 //获取热门推荐数据
 $.ajax({
     type: 'get',
@@ -59,7 +81,7 @@ $.ajax({
     var randomTpl = `
     {{each data}}
       <li>
-      <a href="/detail.html?randomId={{$value._id}}">
+      <a href="/detail.html?id={{$value._id}}">
         <p class="title">{{$value.title}}</p>
         <p class="reading">阅读({{$value.meta.views}})</p>
         <div class="pic">
@@ -107,34 +129,10 @@ $.ajax({
   }
 })
 
+//点击了搜索按钮，将用户输入的数据传递到search页面啊
+$('.search form').on('submit',function(){
+  var formData = $(this).find('.keys').val()
+  location.href = '/search.html?key=' + formData
+  return false
+})
 
-//搜索文章
-// $('.search').on('submit',function(){
-//   console.log(1)
-
-//   return false
-// }
-
-
-
-//处理时间的函数 
-function formateDate(date){
-  //将日期字符串 转为 日期对象
-  date = new Date(date)     // console.log(date);  Wed Jan 05 2022 10:31:00 GMT+0800 (中国标准时间)
-  var yyyy = date.getFullYear();//获取当前年份
-  var MM = date.getMonth() + 1;//因为getMonth()方法获取的是索引值，获取的月份为0-11，所以要＋1
-  var dd = date.getDate();//从 Date 对象返回一个月中的某一天 (1 ~ 31）
-  var hh = date.getHours();//返回 Date 对象的小时 (0 ~ 23)
-  var mm = date.getMinutes();//返回 Date 对象的分钟 (0 ~ 59)
-  MM = checkTime(MM);//调用下面的checkTime函数，设置小于10的时间数字格式，例如5秒显示成05秒
-  dd = checkTime(dd);
-  hh = checkTime(hh);
-  mm = checkTime(mm);
-  function checkTime(i) {
-      if (i < 10) {
-          i = "0" + i;//这里如果是一位数则在前面添加一位0
-      }
-      return i;
-   }
-  return yyyy + '-' + MM + '-' + dd
-}
