@@ -27,7 +27,6 @@ $.ajax({
       $('#searchBox').html(html)
     }
   })
-
   
 //点赞文章
 $('#searchBox').on('click','.like',function(){

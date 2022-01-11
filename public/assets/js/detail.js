@@ -36,8 +36,10 @@ function formateDate(date){
   }
 
 
+
 //获取地址栏中的文章id
 var id = getUrlParams('id')
+
 $.ajax({
     type: 'get',
     url: '/posts/' + id,
@@ -59,4 +61,58 @@ $('#detailBox').on('click','.like',function(){
       }
     })
 })
+
+//评论文章功能
+//获取评论是否需要人工审核的状态(未赋值)
+var review;
+//获取网站的配置信息
+$.ajax({
+    type: 'get',
+    url: '/settings',
+    success: function(data){
+        //获取网站是否开启了评论功能
+        if(data.comment){
+            //渲染评论输入框
+            var html = template('commentTpl')
+            $('#commentBox').html(html)
+            //获取后台评论是否开启的状态
+            review = data.review
+        }
+    }
+})
+
+//创建评论
+$('#commentBox').on('submit','.comment',function(){
+    var state;
+    //获取评论内容
+    var textData = $(this).find('textarea').val()
+    // 评论是否需要人工审核
+    if(review){
+        //已开启评论审核
+        state = 0
+    }else{
+        //未开启评论审核(无需审核)
+        state = 1
+    }
+
+    if(textData){
+        $.ajax({
+            type: 'post',
+            url: '/comments',
+            data: {
+                content: textData,
+                post: id,
+                state: state
+            },
+            success: function(data){
+                location.reload()
+            }
+        })    
+    }else{
+        alert('请输入评论内容!')
+    }
+
+    return false;
+})
+
 
